@@ -1,0 +1,1 @@
+This is a secret message for the cryptography lab. It contains sensitive information that must be protected using both symmetric and asymmetric encryption techniques.

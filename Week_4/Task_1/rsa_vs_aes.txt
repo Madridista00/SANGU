@@ -1,0 +1,11 @@
+RSA vs AES Performance and Use-Case Differences
+
+Performance:
+- RSA (Asymmetric): Slower due to large key sizes (e.g., 2048-bit) and complex math (modular exponentiation). Encryption/decryption times are higher, especially for large files—suitable only for small data (< few KB) to avoid performance bottlenecks.
+- AES (Symmetric): Much faster with fixed small keys (e.g., 256-bit) and simple block cipher operations. Ideal for bulk data encryption; hardware acceleration (e.g., AES-NI) makes it efficient even on large files.
+
+Use Cases:
+- RSA: Key exchange, digital signatures, or encrypting small secrets (e.g., session keys). Not for direct file encryption of large data due to speed and block size limits.
+- AES: Bulk file/stream encryption, disk encryption (e.g., BitLocker), secure communications (e.g., TLS data transfer). Often combined with RSA (hybrid crypto) for secure key distribution.
+
+In this lab: RSA was used directly for the file (small size), but in practice, we'd use RSA to encrypt an AES key, then AES for the file—balancing security and speed.
