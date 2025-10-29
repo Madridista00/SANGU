@@ -1,0 +1,17 @@
+TLS Handshake Explanation
+The TLS handshake establishes a secure channel before data exchange:
+1. Client Hello: Client sends supported TLS versions (e.g., 1.3), cipher suites (e.g., AES-256-GCM), and a random nonce.
+2. Server Hello: Server selects version/cipher, sends its random nonce, and public key (via certificate).
+3. Certificate: Server sends its X.509 cert chain for authentication.
+4. Key Exchange: Client/server compute shared secret (e.g., via ECDHE) without transmitting it.
+5. Finished: Both send encrypted "proof" messages to verify integrity.
+Result: Symmetric session key derived for efficient data encryption (hybrid crypto).
+
+MITM Protection Mechanisms
+- Digital Certificates & CA Trust: Servers prove identity via certs signed by trusted CAs (e.g., Let's Encrypt). Browsers validate chain against root store—prevents fake certs.
+- Public Key Authentication: Handshake uses ephemeral keys (e.g., Diffie-Hellman) for forward secrecy; cert pins/HSTS add layers.
+- Integrity Checks: HMAC/SHA in ciphers detect tampering. Certificate Transparency logs prevent rogue CAs.
+- If MITM tries interception: Client detects invalid cert (e.g., wrong issuer) and aborts.
+
+TLS Application in Websites
+TLS secures HTTPS by encrypting HTTP traffic end-to-end: protects confidentiality (e.g., passwords), integrity (no tampering), and authenticity (no spoofing). In e-commerce (e.g., banking sites), it prevents eavesdropping on card details. Modern sites use TLS 1.3 for speed/privacy. Without TLS, data is vulnerable to packet sniffing on public Wi-Fi.
