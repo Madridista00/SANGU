@@ -1,4 +1,39 @@
-Signature verification:
-- Message decrypted with Bob's private key
-- Signature verified using Alice's public key
-- Result: Good signature from Alice → sender authenticated + integrity confirmed
+Message used:
+"Sangu is the best professor in best university"
+
+=== Signature Verification Process (Bob's point of view) ===
+
+1. Bob receives the file: signed_and_encrypted.asc
+   This file contains:
+   • The original plaintext message (encrypted with Bob's public key)
+   • A digital signature created by Alice using her private key
+
+2. Bob runs:
+   gpg --decrypt signed_and_encrypted.asc > decrypted_message.txt
+
+3. During decryption GPG automatically performs these steps:
+
+   a) Decryption phase (confidentiality)
+      • Uses Bob's private key to decrypt the session key
+      • Uses the session key to decrypt the actual message
+
+   b) Signature verification phase (authenticity + integrity)
+      • Extracts Alice's embedded digital signature from the .asc file
+      • Extracts Alice's public key (already imported into Bob's keyring)
+      • Re-computes the cryptographic hash (SHA-256 by default in modern GPG) of the decrypted plaintext
+      • Uses Alice's public key to decrypt the signature → recovers the original hash that Alice computed
+      • Compares the two hashes
+
+4. Result shown on screen:
+   gpg: Good signature from "Alice <alice@university.local>" [ultimate]
+   gpg: Signature made ...
+   Primary key fingerprint: XXXX XXXX ...
+
+Meaning:
+- "Good signature" = the hash Alice computed matches the hash Bob just computed
+- Therefore the message has not been altered (integrity guaranteed)
+- The signature could only have been created by the holder of Alice's private key (non-repudiation)
+- Since Bob trusts Alice's public key → Bob now trusts that the message genuinely came from Alice
+
+Conclusion:
+The digital signature successfully validates that the sender is Alice and that the message content is exactly what Alice sent.
