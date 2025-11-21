@@ -1,4 +1,0 @@
-Signature verification:
-- Message decrypted with Bob's private key
-- Signature verified using Alice's public key
-- Result: Good signature from Alice → sender authenticated + integrity confirmed
